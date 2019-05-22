@@ -1,19 +1,10 @@
 package ba.unsa.etf.rs.tutorijal8;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TransportDAO {
-    private ObservableList<Bus> busesList = FXCollections.observableArrayList();
-    private ObjectProperty<Bus> currentBus = null;
-    private ObservableList<Driver> driversList = FXCollections.observableArrayList();
-    private ObjectProperty<Driver> currentDriver = null;
+
 
 
     private static TransportDAO instance = null;
@@ -68,7 +59,6 @@ public class TransportDAO {
             //todo
             dodijeliVozacuAutobusStatement = conn.prepareStatement("INSERT OR REPLACE INTO dodjela(bus_id, driver_id)" +
                     " VALUES (?,?)");
-            ucitaj();
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -77,31 +67,6 @@ public class TransportDAO {
         }
 
     }
-
-
-
-
-
-
-    //ucitavanje podataka
-
-    public void ucitaj() {
-        busesList =  FXCollections.observableArrayList(getBusses());
-        if (busesList.size() > 0) {
-            currentBus = new SimpleObjectProperty<>(busesList.get(0)) ;
-        }
-
-        driversList = FXCollections.observableArrayList(getDrivers());
-        if (driversList.size() > 0) {
-            currentDriver = new SimpleObjectProperty<>(getDriversList().get(0));
-        }
-        //System.out.println(driversList.size());
-    }
-
-
-
-
-
 
     public static void removeInsance() {
         if (instance != null) {
@@ -325,45 +290,5 @@ public class TransportDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public ObservableList<Bus> getBusesList() {
-        return busesList;
-    }
-
-    public void setBusesList(ObservableList<Bus> busesList) {
-        this.busesList = busesList;
-    }
-
-    public Bus getCurrentBus() {
-        return currentBus.get();
-    }
-
-    public ObjectProperty<Bus> currentBusProperty() {
-        return currentBus;
-    }
-
-    public void setCurrentBus(Bus currentBus) {
-        this.currentBus.set(currentBus);
-    }
-
-    public ObservableList<Driver> getDriversList() {
-        return driversList;
-    }
-
-    public void setDriversList(ObservableList<Driver> driversList) {
-        this.driversList = driversList;
-    }
-
-    public Driver getCurrentDriver() {
-        return currentDriver.get();
-    }
-
-    public ObjectProperty<Driver> currentDriverProperty() {
-        return currentDriver;
-    }
-
-    public void setCurrentDriver(Driver currentDriver) {
-        this.currentDriver.set(currentDriver);
     }
 }
